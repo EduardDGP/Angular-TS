@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { productos } from '../productos';
 import { CommonModule } from '@angular/common';
+import { }
 
 
 @Component({

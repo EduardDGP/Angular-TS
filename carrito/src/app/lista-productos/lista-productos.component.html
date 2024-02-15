@@ -1,5 +1,19 @@
 <p>lista-productos works!</p>
 <div *ngFor = "let producto of productos">
   {{producto.nombre}}
-
 </div>
+<br>
+<div *ngFor = "let producto of productos">
+  {{producto.nombre}}:
+  {{producto.descripcion}}
+</div>
+<br>
+<div *ngFor = "let producto of productos">
+  <a href="#" (mouseover)="mostrarDetalles(producto)" (mouseout)="ocultarDetalles()">
+    {{ producto.nombre }}
+  </a>
+  <span *ngIf="mostrarDescripcion"> - Detalles de {{ producto.nombre }}</span>
+  {{producto.nombre}}:
+  {{producto.descripcion}}
+</div>
+

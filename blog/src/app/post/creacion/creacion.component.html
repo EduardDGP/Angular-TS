@@ -1,7 +1,22 @@
 <button routerLink="" routerLinkActive="active">Go back</button>
 
-<div class="container">
-	<form (ngSubmit)="submit()" #f="ngForm">
-
-	</form>
-</div>
+<form [formGroup]="postForm" (ngSubmit)="submit()">
+	<div class="form-group">
+	  <label for="titulo">Título:</label>
+	  <input formControlName="titulo" id="titulo" type="text" class="form-control">
+	  <div *ngIf="postForm.get('titulo')" class="alert alert-danger">
+		<div *ngIf="postForm.get('titulo')">El título es requerido.</div>
+	  </div>
+	</div>
+  
+	<div class="form-group">
+	  <label for="descripcion">Descripción:</label>
+	  <textarea formControlName="descripcion" id="descripcion" class="form-control"></textarea>
+	  <div *ngIf="postForm.get('descripcion')" class="alert alert-danger">
+		<div *ngIf="postForm.get('descripcion')">La descripción es requerida.</div>
+	  </div>
+	</div>
+  
+	<button type="submit" [disabled]="postForm.invalid">Guardar</button>
+  </form>
+  

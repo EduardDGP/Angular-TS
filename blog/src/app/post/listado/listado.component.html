@@ -14,8 +14,8 @@
     <td>{{ post.body }}</td>
     <td>
       <button>Ver</button>
-      <button>Editar</button>
-      <button>Borrar</button></td>
+      <button (click)="navigateToActualizar()">Editar</button>
+      <button (click)="eliminarPost(post.id)">Borrar</button>
   </tr>
 </table>
 

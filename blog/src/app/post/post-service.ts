@@ -43,4 +43,13 @@ export class PostService {
   delete(id: number): Observable<any> {
     return this.httpClient.delete(`${this.apiURL}/posts/${id}`, this.httpOptions);
   }
+
+  getPostById(id: number): Observable<Post> {
+    return this.httpClient.get<Post>(`${this.apiURL}/post/${id}`);
+  }
+
+  updatePost(post: Post): Observable<Post> {
+    const url = `${this.apiURL}/${post.id}`; // Construir la URL para la actualización del post
+    return this.httpClient.put<Post>(url, post); // Enviar una solicitud PUT al servidor con el post actualizado
+  }
 }

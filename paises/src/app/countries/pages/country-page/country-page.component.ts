@@ -1,0 +1,38 @@
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CountryService } from '../../services/country.service';
+import { Observable, switchMap } from 'rxjs';
+import { Country } from '../../interfaces/country';
+
+@Component({
+  selector: 'app-country-page',
+  standalone: true,
+  imports: [],
+  templateUrl: './country-page.component.html',
+  styles: ``
+})
+export class CountryPageComponent {
+  
+  // Inyección de dependencia del servicio CountryService
+  constructor(
+    private countryService: CountryService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  // Variables de clase para el país y el observable del país
+  countryObserver: Observable<any> | undefined;
+  country: Country | undefined;
+
+  ngOnInit(): void {
+    
+    this.activatedRoute.params
+    .pipe(
+    switchMap( ({ id }) => this.countryService.searchCountryByAlphaCode( id )),
+      )
+        .subscribe( country => {
+          if ( !country ) return this.router.navigateByUrl('');
+          return this.country = country;
+        });
+  }
+}

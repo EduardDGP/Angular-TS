@@ -1,51 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PostService } from '../post-service';
 import { RouterLink } from '@angular/router';
-import { RouterLinkActive } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { routes } from '../../app.routes';
+import { Router } from 'express';
 
-interface IRegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  repeatPass: string;
-}
 
 @Component({
-  selector: 'app-creacion',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  selector: 'app-edicion-post',
   templateUrl: './creacion.component.html',
-  styleUrl: './creacion.component.css'
+  styleUrls: ['./creacion.component.css'],
+  imports: [RouterLink, ReactiveFormsModule, NgIf]
 })
-export class CreacionComponent {
-  registerForm: IRegisterForm = {
-    name: "",
-    email: "",
-    password: "",
-    repeatPass: ""
-  };
+export class CreacionComponent implements OnInit {
+  id: string = '';
+  postForm: FormGroup = new FormGroup({
+    titulo: new FormControl('', [Validators.required]),
+    texto: new FormControl('', [Validators.required]),
+  });
 
-  constructor() {}
+  constructor (
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+  ) { }
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+
+    this.postForm = this.formBuilder.group({
+      titulo: ['', Validators.required],
+      descripcion: ['', Validators.required],
+    });
+    
+  }
 
   submit() {
-    // Llegados a este punto, ya hemos podido validar todo excepto las contraseñas y ya recibimos los datos
-    console.log("Datos de inicio de sesión");
-    console.log(this.register.name);
-    console.log(this.register.email);
-    console.log(this.register.password);
-    console.log(this.register.repeatPass);
-
-    // Controlar si el password y el password verificado son iguales
-    if (this.registerForm.password !== this.registerForm.repeatPass) {
-      // Emitir alerta POR NO SER IGUALES Y NO DEJAR ENVIAR DATOS
-      console.log(
-        "Hay que introducir las dos contraseñas iguales para validarlo"
-      );
-      // Echar un mensaje de alerta
-      return;
-    }
-
-    // Con estos datos ya todo OK, los enviamos al servidor para comprobar si el login es OK o NO
+    setTimeout(() => {
+      // Alerta indicando que se ha guardado correctamente
+      window.alert('¡Los datos se han guardado correctamente!');
+      window.history.back();
+    }, 1000);
   }
-} // FIN class
-
+}
